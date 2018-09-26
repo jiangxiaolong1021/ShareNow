@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbsstep.dao.TUserMapper">
+	<select id="getDayUserCount" resultType="int">
+		select count(*)
+		from
+		t_user
+		where year(createDate)=year(SYSDATE())
+		and
+		DAYOFYEAR(createdate)=DAYOFYEAR(SYSDATE())
+	</select>
+
+
+	<select id="getMouthUserCount" resultType="int">
+		select count(*) from
+		t_user where year(createDate)=year(SYSDATE()) and
+		MONTHNAME(createdate)=MONTHNAME(SYSDATE())
+	</select>
+
+
+	<select id="getAllUserCount" resultType="int">
+		select count(*) from
+		t_user
+	</select>
+
+	<select id="getDayActivityCount" resultType="int">
+		select count(*)
+		from
+		t_active
+		where year(createDate)=year(SYSDATE())
+		and
+		DAYOFYEAR(createdate)=DAYOFYEAR(SYSDATE())
+	</select>
+
+
+	<select id="getMouthActivityCount" resultType="int">
+		select count(*)
+		from t_active where year(createDate)=year(SYSDATE()) and
+		MONTHNAME(createdate)=MONTHNAME(SYSDATE())
+
+	</select>
+
+
+	<select id="getAllActivityCount" resultType="int">
+		select count(*) from
+		t_active
+	</select>
+
+
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbsstep.dao.TCarouselMapper">
+
+	<sql id="selectColumn">
+		id, title, path, weight, user_id, createtime, edittime, ischoose, type
+	</sql>
+
+	<select id="selectNumByParam" resultType="java.lang.Integer"
+		parameterType="com.bbsstep.util.DataTablePageUtil">
+		select count(*)
+		from t_carousel
+		<where><!--where标签自动将第一个and去掉,如果条件没有and  where标签也会自动添加一个and -->
+			<if test="condition.type != null">
+				type=#{condition.type}
+			</if>
+			<if test="search != null">
+				and ( title like CONCAT('%',#{search}, '%') or weight like
+				CONCAT('%',#{search}, '%')
+				)
+			</if>
+		</where>
+	</select>
+
+	<!-- 条件查询 -->
+	<select id="selectByParam" resultType="com.bbsstep.po.TCarousel"
+		parameterType="com.bbsstep.util.DataTablePageUtil">
+		select
+		<include refid="selectColumn" />
+		from t_carousel
+		<where>
+			<if test="condition.type != null">
+				type=#{condition.type}
+			</if>
+			<if test="search != null">
+				and ( title like CONCAT('%',#{search}, '%') or weight like
+				CONCAT('%',#{search}, '%')
+				)
+			</if>
+		</where>
+		order by createtime desc limit #{start},#{length}
+	</select>
+
+
+	<insert id="insert" parameterType="com.bbsstep.po.TCarousel">
+		insert into t_carousel (id, title, path,
+		weight, user_id, createtime,
+		edittime, ischoose, type
+		)
+		values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+		#{path,jdbcType=VARCHAR},
+		#{weight,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{createtime},
+		#{edittime}, #{ischoose,jdbcType=CHAR}, #{type,jdbcType=CHAR}
+		)
+	</insert>
+
+
+	<update id="UpdateState"
+		parameterType="com.bbsstep.po.TCarousel">
+		update t_carousel SET ischoose=#{ischoose} WHERE id=#{id}
+	</update>
+	
+	
+	
+	<update id="updateimg"
+		parameterType="com.bbsstep.po.TCarousel">
+		update t_carousel SET title=#{title} , weight=#{weight},ischoose=#{ischoose}, path=#{path} WHERE id=#{id}
+	</update>
+	
+	<delete id="Delete"
+		parameterType="long">
+		delete from t_carousel  WHERE id=#{id}
+	</delete>
+	
+
+</mapper>

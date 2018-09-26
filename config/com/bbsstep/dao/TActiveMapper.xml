@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbsstep.dao.TActiveMapper">
+
+
+	<select id="selectActiveByCity"
+		resultType="com.bbsstep.po.TActive" parameterType="string">
+
+		select *from
+		t_active where isdelete!=1 and city=#{cityName}
+
+	</select>
+
+
+	<select id="getProvinceByCity" parameterType="String"
+		resultType="com.bbsstep.po.TCity">
+		select * from t_cities where city=#{cityName}
+	</select>
+
+</mapper>
+
